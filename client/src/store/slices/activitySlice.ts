@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import api from "@/lib/axios.js";
 import type { ActivityLog, CreateActivityDto } from "@tracker/shared";
 
-interface ActivityState {
+export interface ActivityState {
   activities: ActivityLog[];
   loading: boolean;
   error: string | null;

@@ -9,7 +9,7 @@ import type {
   DashboardStats,
 } from "@tracker/shared";
 
-interface JobState {
+export interface JobState {
   jobs: JobApplication[];
   currentJob: (JobApplication & { activities?: unknown[] }) | null;
   dashboardStats: DashboardStats | null;
