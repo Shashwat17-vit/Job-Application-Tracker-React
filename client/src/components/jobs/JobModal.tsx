@@ -94,13 +94,13 @@ export function JobModal({ isOpen, onClose, job }: JobModalProps) {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="block text-sm font-medium text-slate-700 mb-1.5">
             Status
           </label>
           <select
             value={form.status}
             onChange={(e) => updateField("status", e.target.value)}
-            className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 hover:border-slate-400 transition-all"
           >
             {Object.values(JobStatus).map((s) => (
               <option key={s} value={s}>
@@ -111,19 +111,19 @@ export function JobModal({ isOpen, onClose, job }: JobModalProps) {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
+          <label className="block text-sm font-medium text-slate-700 mb-1.5">
             Notes
           </label>
           <textarea
             value={form.notes}
             onChange={(e) => updateField("notes", e.target.value)}
             rows={3}
-            className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+            className="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 hover:border-slate-400 transition-all resize-none"
             placeholder="Any notes about this application..."
           />
         </div>
 
-        <div className="flex justify-end gap-3 pt-2">
+        <div className="flex justify-end gap-3 pt-4">
           <Button type="button" variant="secondary" onClick={onClose}>
             Cancel
           </Button>

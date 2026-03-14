@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import { LayoutDashboard, Columns3, LogOut } from "lucide-react";
+import { LayoutDashboard, Columns3, LogOut, Briefcase } from "lucide-react";
 import { useAppDispatch } from "@/store/hooks.js";
 import { logout } from "@/store/slices/authSlice.js";
 
@@ -12,36 +12,45 @@ export function Sidebar() {
   const dispatch = useAppDispatch();
 
   return (
-    <aside className="flex h-screen w-64 flex-col border-r border-gray-200 bg-white">
-      <div className="flex h-16 items-center px-6 border-b border-gray-200">
-        <h1 className="text-xl font-bold text-gray-900">Job Tracker</h1>
+    <aside className="flex h-screen w-64 flex-col border-r border-slate-200 bg-white">
+      {/* Brand — focal point with gestalt grouping */}
+      <div className="flex h-16 items-center gap-3 px-6 border-b border-slate-100">
+        <div className="flex h-8 w-8 items-center justify-center rounded-lg gradient-brand text-white">
+          <Briefcase className="h-4 w-4" />
+        </div>
+        <span className="text-lg font-bold tracking-tight text-gradient">ApplyFlow</span>
       </div>
 
-      <nav className="flex-1 space-y-1 px-3 py-4">
+      {/* Navigation — gestalt proximity grouping, clear hierarchy */}
+      <nav className="flex-1 px-3 py-6 space-y-1">
+        <p className="px-3 mb-3 text-[11px] font-semibold uppercase tracking-wider text-slate-400">
+          Menu
+        </p>
         {navItems.map(({ to, label, icon: Icon }) => (
           <NavLink
             key={to}
             to={to}
             className={({ isActive }) =>
-              `flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
+              `flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all ${
                 isActive
-                  ? "bg-blue-50 text-blue-700"
-                  : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
+                  ? "bg-indigo-50 text-indigo-700 shadow-sm"
+                  : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
               }`
             }
           >
-            <Icon className="h-5 w-5" />
+            <Icon className="h-[18px] w-[18px]" />
             {label}
           </NavLink>
         ))}
       </nav>
 
-      <div className="border-t border-gray-200 p-3">
+      {/* Sign out — separated by negative space */}
+      <div className="border-t border-slate-100 p-3">
         <button
           onClick={() => dispatch(logout())}
-          className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-gray-600 hover:bg-gray-100 hover:text-gray-900 transition-colors"
+          className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-500 hover:bg-red-50 hover:text-red-600 transition-all"
         >
-          <LogOut className="h-5 w-5" />
+          <LogOut className="h-[18px] w-[18px]" />
           Sign out
         </button>
       </div>

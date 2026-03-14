@@ -61,44 +61,46 @@ export function JobDetail() {
     <div className="mx-auto max-w-3xl">
       <button
         onClick={() => navigate(-1)}
-        className="mb-4 flex items-center gap-1 text-sm text-gray-500 hover:text-gray-700 transition-colors"
+        className="mb-6 flex items-center gap-1.5 text-sm text-slate-500 hover:text-slate-700 transition-colors"
       >
         <ArrowLeft className="h-4 w-4" />
         Back
       </button>
 
-      <div className="rounded-xl border border-gray-200 bg-white p-6 mb-6">
-        <div className="flex items-start justify-between mb-4">
-          <div className="flex items-start gap-3">
-            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gray-100 text-gray-500">
-              <Building2 className="h-6 w-6" />
+      {/* Main detail card — focal point with visual hierarchy */}
+      <div className="rounded-2xl border border-slate-200 bg-white p-8 mb-6 shadow-sm">
+        <div className="flex items-start justify-between mb-6">
+          <div className="flex items-start gap-4">
+            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-slate-100 text-slate-500">
+              <Building2 className="h-7 w-7" />
             </div>
             <div>
-              <h1 className="text-xl font-bold text-gray-900">
+              <h1 className="text-xl font-bold text-slate-900 tracking-tight">
                 {currentJob.company}
               </h1>
-              <p className="text-gray-600">{currentJob.role}</p>
+              <p className="text-slate-500 mt-0.5">{currentJob.role}</p>
             </div>
           </div>
           <Badge status={currentJob.status as JobStatus} />
         </div>
 
-        <div className="grid grid-cols-2 gap-4 mb-4">
+        {/* Metadata grid — gestalt proximity grouping */}
+        <div className="grid grid-cols-2 gap-4 mb-6">
           {currentJob.location && (
-            <div className="flex items-center gap-2 text-sm text-gray-600">
-              <MapPin className="h-4 w-4 text-gray-400" />
+            <div className="flex items-center gap-2.5 text-sm text-slate-600">
+              <MapPin className="h-4 w-4 text-slate-400" />
               {currentJob.location}
             </div>
           )}
           {currentJob.salary && (
-            <div className="flex items-center gap-2 text-sm text-gray-600">
-              <DollarSign className="h-4 w-4 text-gray-400" />
+            <div className="flex items-center gap-2.5 text-sm text-slate-600">
+              <DollarSign className="h-4 w-4 text-slate-400" />
               {currentJob.salary}
             </div>
           )}
           {currentJob.appliedAt && (
-            <div className="flex items-center gap-2 text-sm text-gray-600">
-              <Calendar className="h-4 w-4 text-gray-400" />
+            <div className="flex items-center gap-2.5 text-sm text-slate-600">
+              <Calendar className="h-4 w-4 text-slate-400" />
               Applied {new Date(currentJob.appliedAt).toLocaleDateString()}
             </div>
           )}
@@ -107,7 +109,7 @@ export function JobDetail() {
               href={currentJob.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 text-sm text-blue-600 hover:underline"
+              className="flex items-center gap-2.5 text-sm text-indigo-600 hover:text-indigo-500 transition-colors"
             >
               <ExternalLink className="h-4 w-4" />
               Job Listing
@@ -116,23 +118,24 @@ export function JobDetail() {
         </div>
 
         {currentJob.notes && (
-          <div className="mb-4">
-            <h3 className="text-sm font-semibold text-gray-700 mb-1">Notes</h3>
-            <p className="text-sm text-gray-600 whitespace-pre-wrap">
+          <div className="mb-6 p-4 rounded-xl bg-slate-50 border border-slate-100">
+            <h3 className="text-sm font-semibold text-slate-700 mb-1.5">Notes</h3>
+            <p className="text-sm text-slate-600 whitespace-pre-wrap leading-relaxed">
               {currentJob.notes}
             </p>
           </div>
         )}
 
-        <div className="flex justify-end">
-          <Button variant="danger" size="sm" onClick={handleDelete}>
-            <Trash2 className="h-4 w-4 mr-1" />
+        <div className="flex justify-end pt-2 border-t border-slate-100">
+          <Button variant="danger" size="sm" onClick={handleDelete} className="mt-4">
+            <Trash2 className="h-4 w-4 mr-1.5" />
             Delete
           </Button>
         </div>
       </div>
 
-      <div className="rounded-xl border border-gray-200 bg-white p-6">
+      {/* Activity timeline card */}
+      <div className="rounded-2xl border border-slate-200 bg-white p-8 shadow-sm">
         <ActivityTimeline jobId={currentJob.id} />
       </div>
     </div>

@@ -29,16 +29,18 @@ export function Modal({ isOpen, onClose, title, children }: ModalProps) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
+      {/* Backdrop with blur — creates depth contrast */}
       <div
-        className="fixed inset-0 bg-black/50 transition-opacity"
+        className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm transition-opacity"
         onClick={onClose}
       />
-      <div className="relative z-10 w-full max-w-lg rounded-xl bg-white p-6 shadow-xl mx-4">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-semibold">{title}</h2>
+      {/* Modal card — elevated with generous negative space */}
+      <div className="relative z-10 w-full max-w-lg rounded-2xl bg-white p-8 shadow-2xl mx-4 border border-slate-200/50">
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-lg font-bold text-slate-900">{title}</h2>
           <button
             onClick={onClose}
-            className="rounded-lg p-1 hover:bg-gray-100 transition-colors"
+            className="rounded-xl p-1.5 hover:bg-slate-100 transition-colors text-slate-400 hover:text-slate-600"
           >
             <X className="h-5 w-5" />
           </button>

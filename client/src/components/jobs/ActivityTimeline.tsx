@@ -57,21 +57,21 @@ export function ActivityTimeline({ jobId }: ActivityTimelineProps) {
 
   return (
     <div>
-      <h3 className="text-sm font-semibold text-gray-700 mb-3">Activity Log</h3>
+      <h3 className="text-sm font-semibold text-slate-700 mb-4">Activity Log</h3>
 
-      <form onSubmit={handleSubmit} className="mb-4 space-y-2">
+      <form onSubmit={handleSubmit} className="mb-6 space-y-3">
         <textarea
           value={note}
           onChange={(e) => setNote(e.target.value)}
           rows={2}
-          className="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+          className="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 hover:border-slate-400 transition-all resize-none"
           placeholder="Add a note..."
         />
         <div className="flex items-center gap-2">
           <select
             value={type}
             onChange={(e) => setType(e.target.value as ActivityType)}
-            className="rounded-lg border border-gray-300 px-2 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="rounded-xl border border-slate-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 hover:border-slate-400 transition-all"
           >
             {Object.values(ActivityType).map((t) => (
               <option key={t} value={t}>
@@ -86,9 +86,9 @@ export function ActivityTimeline({ jobId }: ActivityTimelineProps) {
       </form>
 
       {loading ? (
-        <p className="text-sm text-gray-500">Loading...</p>
+        <p className="text-sm text-slate-500">Loading...</p>
       ) : activities.length === 0 ? (
-        <p className="text-sm text-gray-400">No activity yet</p>
+        <p className="text-sm text-slate-400">No activity yet</p>
       ) : (
         <div className="space-y-3">
           {activities.map((activity) => {
@@ -96,28 +96,28 @@ export function ActivityTimeline({ jobId }: ActivityTimelineProps) {
             return (
               <div
                 key={activity.id}
-                className="flex items-start gap-3 rounded-lg border border-gray-200 p-3"
+                className="flex items-start gap-3 rounded-xl border border-slate-200 p-4 transition-colors hover:bg-slate-50"
               >
-                <div className="flex h-7 w-7 items-center justify-center rounded-full bg-gray-100 text-gray-500">
-                  <Icon className="h-3.5 w-3.5" />
+                <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-slate-100 text-slate-500 shrink-0">
+                  <Icon className="h-4 w-4" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm text-gray-800">{activity.note}</p>
-                  <div className="flex items-center gap-2 mt-1">
-                    <span className="text-xs text-gray-400">
+                  <p className="text-sm text-slate-700 leading-snug">{activity.note}</p>
+                  <div className="flex items-center gap-2 mt-1.5">
+                    <span className="text-xs text-slate-400">
                       {new Date(activity.createdAt).toLocaleDateString()} at{" "}
                       {new Date(activity.createdAt).toLocaleTimeString([], {
                         hour: "2-digit",
                         minute: "2-digit",
                       })}
                     </span>
-                    <span className="text-xs text-gray-300">|</span>
-                    <span className="text-xs text-gray-400">{typeLabels[activity.type]}</span>
+                    <span className="text-xs text-slate-300">·</span>
+                    <span className="text-xs text-slate-400">{typeLabels[activity.type]}</span>
                   </div>
                 </div>
                 <button
                   onClick={() => handleDelete(activity.id)}
-                  className="rounded p-1 text-gray-400 hover:bg-red-50 hover:text-red-500 transition-colors"
+                  className="rounded-lg p-1.5 text-slate-400 hover:bg-red-50 hover:text-red-500 transition-colors"
                 >
                   <Trash2 className="h-3.5 w-3.5" />
                 </button>
