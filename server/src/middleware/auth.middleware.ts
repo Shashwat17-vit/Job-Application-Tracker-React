@@ -12,13 +12,16 @@ declare global {
 }
 
 export function authenticate(req: Request, _res: Response, next: NextFunction): void {
-  const authHeader = req.headers.authorization;
+  // Read token from HttpOnly cookie first, fall back to Authorization header
+  const token =
+    req.cookies?.accessToken ||
+    (req.headers.authorization?.startsWith("Bearer ")
+      ? req.headers.authorization.split(" ")[1]
+      : undefined);
 
-  if (!authHeader?.startsWith("Bearer ")) {
-    throw ApiError.unauthorized("Missing or invalid authorization header");
+  if (!token) {
+    throw ApiError.unauthorized("Missing authentication token");
   }
-
-  const token = authHeader.split(" ")[1];
 
   try {
     const payload = verifyAccessToken(token);

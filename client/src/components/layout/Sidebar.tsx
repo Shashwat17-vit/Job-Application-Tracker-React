@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 import { LayoutDashboard, Columns3, LogOut, Briefcase } from "lucide-react";
 import { useAppDispatch } from "@/store/hooks.js";
-import { logout } from "@/store/slices/authSlice.js";
+import { logoutThunk } from "@/store/slices/authSlice.js";
 
 const navItems = [
   { to: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
@@ -18,7 +18,7 @@ export function Sidebar() {
         <div className="flex h-8 w-8 items-center justify-center rounded-lg gradient-brand text-white">
           <Briefcase className="h-4 w-4" />
         </div>
-        <span className="text-lg font-bold tracking-tight text-gradient">ApplyFlow</span>
+        <span className="text-lg font-bold tracking-tight text-gradient">TrackMyApplications</span>
       </div>
 
       {/* Navigation — gestalt proximity grouping, clear hierarchy */}
@@ -47,7 +47,7 @@ export function Sidebar() {
       {/* Sign out — separated by negative space */}
       <div className="border-t border-slate-100 p-3">
         <button
-          onClick={() => dispatch(logout())}
+          onClick={() => dispatch(logoutThunk())}
           className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-slate-500 hover:bg-red-50 hover:text-red-600 transition-all"
         >
           <LogOut className="h-[18px] w-[18px]" />

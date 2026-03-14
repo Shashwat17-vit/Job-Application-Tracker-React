@@ -27,7 +27,7 @@ export function LoginPage() {
             <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/20 backdrop-blur-sm">
               <Briefcase className="h-5 w-5" />
             </div>
-            <span className="text-xl font-bold tracking-tight">ApplyFlow</span>
+            <span className="text-xl font-bold tracking-tight">TrackMyApplications</span>
           </div>
 
           {/* Center: Value proposition (focal point — rule of thirds) */}
@@ -71,15 +71,15 @@ export function LoginPage() {
               <div className="flex h-10 w-10 items-center justify-center rounded-xl gradient-brand text-white">
                 <Briefcase className="h-5 w-5" />
               </div>
-              <span className="text-2xl font-bold text-gradient">ApplyFlow</span>
+              <span className="text-2xl font-bold text-gradient">TrackMyApplications</span>
             </div>
           </div>
 
           {/* Form header — clear visual hierarchy */}
           <div className="mb-8">
-            <h2 className="text-2xl font-bold text-slate-900">Welcome back</h2>
+            <h2 className="text-2xl font-bold text-slate-900">Sign in to your account</h2>
             <p className="mt-2 text-slate-500">
-              Sign in to continue tracking your applications
+              Your next opportunity starts here
             </p>
           </div>
 

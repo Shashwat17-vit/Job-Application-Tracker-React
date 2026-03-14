@@ -2,10 +2,11 @@ import { useState } from "react";
 import { KanbanBoard } from "@/components/kanban/KanbanBoard.js";
 import { JobModal } from "@/components/jobs/JobModal.js";
 import { Button } from "@/components/ui/Button.js";
-import { Plus } from "lucide-react";
+import { Plus, Search, X } from "lucide-react";
 
 export function KanbanPage() {
   const [showModal, setShowModal] = useState(false);
+  const [search, setSearch] = useState("");
 
   return (
     <div className="flex flex-col h-full">
@@ -16,14 +17,35 @@ export function KanbanPage() {
             Drag and drop to update your application status
           </p>
         </div>
-        <Button onClick={() => setShowModal(true)} size="md">
-          <Plus className="h-4 w-4 mr-1.5" />
-          Add Application
-        </Button>
+        <div className="flex items-center gap-3">
+          {/* Search input */}
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+            <input
+              type="text"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="Search by company..."
+              className="w-64 rounded-xl border border-slate-300 bg-white pl-9 pr-9 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent hover:border-slate-400 transition-all placeholder:text-slate-400"
+            />
+            {search && (
+              <button
+                onClick={() => setSearch("")}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            )}
+          </div>
+          <Button onClick={() => setShowModal(true)} size="md">
+            <Plus className="h-4 w-4 mr-1.5" />
+            Add Application
+          </Button>
+        </div>
       </div>
 
       <div className="flex-1 min-h-0">
-        <KanbanBoard />
+        <KanbanBoard searchQuery={search} />
       </div>
 
       <JobModal isOpen={showModal} onClose={() => setShowModal(false)} />

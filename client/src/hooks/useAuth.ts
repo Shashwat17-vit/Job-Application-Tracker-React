@@ -4,13 +4,14 @@ import { getMeThunk } from "@/store/slices/authSlice.js";
 
 export function useAuth() {
   const dispatch = useAppDispatch();
-  const { user, isAuthenticated, loading } = useAppSelector((state) => state.auth);
+  const { user, isAuthenticated, initialLoading } = useAppSelector((state) => state.auth);
 
   useEffect(() => {
-    if (isAuthenticated && !user) {
+    // On app startup, check if we have a valid session cookie
+    if (!user) {
       dispatch(getMeThunk());
     }
-  }, [isAuthenticated, user, dispatch]);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  return { user, isAuthenticated, loading };
+  return { user, isAuthenticated, initialLoading };
 }

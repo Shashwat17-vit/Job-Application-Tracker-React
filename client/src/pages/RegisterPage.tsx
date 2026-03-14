@@ -25,7 +25,7 @@ export function RegisterPage() {
             <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/20 backdrop-blur-sm">
               <Briefcase className="h-5 w-5" />
             </div>
-            <span className="text-xl font-bold tracking-tight">ApplyFlow</span>
+            <span className="text-xl font-bold tracking-tight">TrackMyApplications</span>
           </div>
 
           <div className="space-y-6">
@@ -64,7 +64,7 @@ export function RegisterPage() {
               <div className="flex h-10 w-10 items-center justify-center rounded-xl gradient-brand text-white">
                 <Briefcase className="h-5 w-5" />
               </div>
-              <span className="text-2xl font-bold text-gradient">ApplyFlow</span>
+              <span className="text-2xl font-bold text-gradient">TrackMyApplications</span>
             </div>
           </div>
 

@@ -1,17 +1,18 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import api from "@/lib/axios.js";
-import type { AuthResponse } from "@tracker/shared";
 
 interface AuthState {
   user: { id: string; email: string; name: string } | null;
   isAuthenticated: boolean;
+  initialLoading: boolean;
   loading: boolean;
   error: string | null;
 }
 
 const initialState: AuthState = {
   user: null,
-  isAuthenticated: !!localStorage.getItem("accessToken"),
+  isAuthenticated: false,
+  initialLoading: true, // true until /auth/me resolves
   loading: false,
   error: null,
 };
@@ -20,10 +21,8 @@ export const loginThunk = createAsyncThunk(
   "auth/login",
   async (credentials: { email: string; password: string }, { rejectWithValue }) => {
     try {
-      const { data } = await api.post<{ data: AuthResponse }>("/auth/login", credentials);
-      localStorage.setItem("accessToken", data.data.accessToken);
-      localStorage.setItem("refreshToken", data.data.refreshToken);
-      return data.data;
+      const { data } = await api.post("/auth/login", credentials);
+      return data.data; // { user } — tokens are now in HttpOnly cookies
     } catch (err: unknown) {
       const error = err as { response?: { data?: { message?: string } } };
       return rejectWithValue(error.response?.data?.message || "Login failed");
@@ -38,10 +37,8 @@ export const registerThunk = createAsyncThunk(
     { rejectWithValue }
   ) => {
     try {
-      const { data } = await api.post<{ data: AuthResponse }>("/auth/register", payload);
-      localStorage.setItem("accessToken", data.data.accessToken);
-      localStorage.setItem("refreshToken", data.data.refreshToken);
-      return data.data;
+      const { data } = await api.post("/auth/register", payload);
+      return data.data; // { user } — tokens are now in HttpOnly cookies
     } catch (err: unknown) {
       const error = err as { response?: { data?: { message?: string } } };
       return rejectWithValue(error.response?.data?.message || "Registration failed");
@@ -62,16 +59,17 @@ export const getMeThunk = createAsyncThunk(
   }
 );
 
+export const logoutThunk = createAsyncThunk(
+  "auth/logout",
+  async () => {
+    await api.post("/auth/logout");
+  }
+);
+
 const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    logout(state) {
-      state.user = null;
-      state.isAuthenticated = false;
-      localStorage.removeItem("accessToken");
-      localStorage.removeItem("refreshToken");
-    },
     clearError(state) {
       state.error = null;
     },
@@ -87,6 +85,7 @@ const authSlice = createSlice({
         state.loading = false;
         state.user = action.payload.user;
         state.isAuthenticated = true;
+        state.initialLoading = false;
       })
       .addCase(loginThunk.rejected, (state, action) => {
         state.loading = false;
@@ -101,24 +100,33 @@ const authSlice = createSlice({
         state.loading = false;
         state.user = action.payload.user;
         state.isAuthenticated = true;
+        state.initialLoading = false;
       })
       .addCase(registerThunk.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
       })
-      // Get Me
+      // Get Me (startup auth check)
+      .addCase(getMeThunk.pending, (state) => {
+        state.initialLoading = true;
+      })
       .addCase(getMeThunk.fulfilled, (state, action) => {
         state.user = action.payload;
         state.isAuthenticated = true;
+        state.initialLoading = false;
       })
       .addCase(getMeThunk.rejected, (state) => {
         state.user = null;
         state.isAuthenticated = false;
-        localStorage.removeItem("accessToken");
-        localStorage.removeItem("refreshToken");
+        state.initialLoading = false;
+      })
+      // Logout
+      .addCase(logoutThunk.fulfilled, (state) => {
+        state.user = null;
+        state.isAuthenticated = false;
       });
   },
 });
 
-export const { logout, clearError } = authSlice.actions;
+export const { clearError } = authSlice.actions;
 export default authSlice.reducer;

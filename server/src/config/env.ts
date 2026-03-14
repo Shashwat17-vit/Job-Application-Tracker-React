@@ -12,6 +12,7 @@ const envSchema = z.object({
   PORT: z.coerce.number().default(5000),
   CLIENT_URL: z.string().url().default("http://localhost:5173"),
   NODE_ENV: z.enum(["development", "production", "test"]).default("development"),
+  GEMINI_API_KEY: z.string().min(1),
 });
 
 const parsed = envSchema.safeParse(process.env);

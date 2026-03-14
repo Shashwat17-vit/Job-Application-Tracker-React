@@ -6,7 +6,11 @@ import { KanbanColumn } from "./KanbanColumn.js";
 import { Spinner } from "@/components/ui/Spinner.js";
 import { KANBAN_COLUMNS, type JobStatus } from "@tracker/shared";
 
-export function KanbanBoard() {
+interface KanbanBoardProps {
+  searchQuery?: string;
+}
+
+export function KanbanBoard({ searchQuery = "" }: KanbanBoardProps) {
   const dispatch = useAppDispatch();
   const { jobs, loading } = useAppSelector((state) => state.jobs);
 
@@ -87,8 +91,10 @@ export function KanbanBoard() {
     <DragDropContext onDragEnd={handleDragEnd}>
       <div className="flex gap-5 overflow-x-auto pb-4 h-full">
         {KANBAN_COLUMNS.map((column) => {
+          const query = searchQuery.toLowerCase();
           const columnJobs = jobs
             .filter((j) => j.status === column.id)
+            .filter((j) => !query || j.company.toLowerCase().includes(query) || j.role.toLowerCase().includes(query))
             .sort((a, b) => a.order - b.order);
 
           return (

@@ -60,11 +60,11 @@ export function JobDetail() {
   return (
     <div className="mx-auto max-w-3xl">
       <button
-        onClick={() => navigate(-1)}
+        onClick={() => navigate("/board")}
         className="mb-6 flex items-center gap-1.5 text-sm text-slate-500 hover:text-slate-700 transition-colors"
       >
         <ArrowLeft className="h-4 w-4" />
-        Back
+        Back to Board
       </button>
 
       {/* Main detail card — focal point with visual hierarchy */}
