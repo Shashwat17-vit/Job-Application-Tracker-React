@@ -1,0 +1,65 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String           @id @default(uuid())
+  email        String           @unique
+  passwordHash String
+  name         String
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @updatedAt
+  jobs         JobApplication[]
+}
+
+model JobApplication {
+  id         String       @id @default(uuid())
+  userId     String
+  user       User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  company    String
+  role       String
+  url        String?
+  salary     String?
+  location   String?
+  notes      String?
+  status     JobStatus    @default(WISHLIST)
+  order      Int          @default(0)
+  appliedAt  DateTime?
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+  activities ActivityLog[]
+
+  @@index([userId, status])
+}
+
+model ActivityLog {
+  id        String       @id @default(uuid())
+  jobId     String
+  job       JobApplication @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  note      String
+  type      ActivityType @default(NOTE)
+  createdAt DateTime     @default(now())
+
+  @@index([jobId])
+}
+
+enum JobStatus {
+  WISHLIST
+  APPLIED
+  PHONE_SCREEN
+  INTERVIEW
+  OFFER
+  REJECTED
+}
+
+enum ActivityType {
+  NOTE
+  STATUS_CHANGE
+  INTERVIEW_SCHEDULED
+  FOLLOW_UP
+}

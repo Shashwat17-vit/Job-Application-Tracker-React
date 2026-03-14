@@ -1,0 +1,26 @@
+{
+  "name": "job-application-tracker",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Job Application Tracker with Kanban Workflow",
+  "workspaces": [
+    "shared",
+    "server",
+    "client"
+  ],
+  "scripts": {
+    "dev:server": "npm run dev -w server",
+    "dev:client": "npm run dev -w client",
+    "dev": "npm run dev:server & npm run dev:client",
+    "build:shared": "npm run build -w shared",
+    "build:server": "npm run build -w server",
+    "build:client": "npm run build -w client",
+    "build": "npm run build:shared && npm run build:server && npm run build:client",
+    "lint": "npm run lint -w client",
+    "docker:up": "docker-compose up --build",
+    "docker:down": "docker-compose down",
+    "db:migrate": "npm run db:migrate -w server",
+    "db:seed": "npm run db:seed -w server",
+    "db:studio": "npm run db:studio -w server"
+  }
+}
