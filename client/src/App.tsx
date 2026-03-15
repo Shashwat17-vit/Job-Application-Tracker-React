@@ -30,7 +30,7 @@ export function App() {
         </Route>
 
         {/* Redirect root to board */}
-        <Route path="*" element={<Navigate to="/board" replace />} />
+        <Route path="*" element={<Navigate to="/dashboard" replace />} />
       </Routes>
     </BrowserRouter>
   );

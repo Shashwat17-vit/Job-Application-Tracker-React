@@ -5,10 +5,11 @@ import { ApiError } from "../utils/ApiError.js";
 import type { AuthResponse, TokenPayload } from "@tracker/shared";
 
 export async function register(
-  email: string,
+  rawEmail: string,
   password: string,
   name: string
 ): Promise<AuthResponse> {
+  const email = rawEmail.toLowerCase();
   const existing = await prisma.user.findUnique({ where: { email } });
   if (existing) {
     throw ApiError.conflict("Email already registered");
@@ -31,7 +32,8 @@ export async function register(
   };
 }
 
-export async function login(email: string, password: string): Promise<AuthResponse> {
+export async function login(rawEmail: string, password: string): Promise<AuthResponse> {
+  const email = rawEmail.toLowerCase();
   const user = await prisma.user.findUnique({ where: { email } });
   if (!user) {
     throw ApiError.unauthorized("Invalid email or password");

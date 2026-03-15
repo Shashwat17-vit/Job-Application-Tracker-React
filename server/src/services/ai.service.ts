@@ -9,11 +9,16 @@ interface ParsedJobDescription {
   role: string;
   salary: string;
   location: string;
+  techStack: string;
 }
 
 export async function parseJobDescription(description: string): Promise<ParsedJobDescription> {
   const result = await model.generateContent(
-    `Extract the following fields from this job description. Return ONLY a JSON object with these keys: "company", "role", "salary", "location". If a field is not found, use an empty string. No markdown, no code blocks, just the raw JSON object.
+    `Extract the following fields from this job description. Return ONLY a JSON object with these keys: "company", "role", "salary", "location", "techStack". If a field is not found, use an empty string.
+
+For "techStack", provide 3-4 short bullet points summarizing the key programming languages and technical skills required for the job. Format each point on a new line starting with "• ". Example: "• Python, Java, SQL\n• AWS, Docker, Kubernetes\n• React/TypeScript frontend". If no technical skills are mentioned, use an empty string.
+
+No markdown, no code blocks, just the raw JSON object.
 
 Job Description:
 ${description}`
@@ -24,7 +29,7 @@ ${description}`
   // Extract JSON from the response (handles markdown code blocks too)
   const jsonMatch = text.match(/\{[\s\S]*\}/);
   if (!jsonMatch) {
-    return { company: "", role: "", salary: "", location: "" };
+    return { company: "", role: "", salary: "", location: "", techStack: "" };
   }
 
   const parsed = JSON.parse(jsonMatch[0]);
@@ -34,5 +39,6 @@ ${description}`
     role: String(parsed.role || ""),
     salary: String(parsed.salary || ""),
     location: String(parsed.location || ""),
+    techStack: String(parsed.techStack || ""),
   };
 }

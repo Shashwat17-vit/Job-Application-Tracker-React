@@ -14,9 +14,9 @@ export function Sidebar() {
   return (
     <aside className="flex h-screen w-64 flex-col border-r border-slate-200 bg-white">
       {/* Brand — focal point with gestalt grouping */}
-      <div className="flex h-16 items-center gap-3 px-6 border-b border-slate-100">
+      <div className="flex h-16 items-center gap-2 px-6 border-b border-slate-100">
         <div className="flex h-8 w-8 items-center justify-center rounded-lg gradient-brand text-white">
-          <Briefcase className="h-4 w-4" />
+          <Briefcase className="h-4 w-8" />
         </div>
         <span className="text-lg font-bold tracking-tight text-gradient">TrackMyApplications</span>
       </div>

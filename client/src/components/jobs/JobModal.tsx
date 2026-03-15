@@ -53,6 +53,7 @@ export function JobModal({ isOpen, onClose, job }: JobModalProps) {
         role: parsed.role || prev.role,
         salary: parsed.salary || prev.salary,
         location: parsed.location || prev.location,
+        notes: parsed.techStack ? `Tech Stack:\n${parsed.techStack}` : prev.notes,
       }));
       setMode("form");
       toast.success("Job description parsed! Review and edit the fields.");
@@ -63,8 +64,22 @@ export function JobModal({ isOpen, onClose, job }: JobModalProps) {
     }
   }
 
+  const fieldLimits = { company: 200, role: 200, salary: 100, location: 200, notes: 2000 } as const;
+
+  const overLimitFields = (Object.keys(fieldLimits) as (keyof typeof fieldLimits)[]).filter(
+    (key) => form[key].length > fieldLimits[key]
+  );
+  const hasErrors = overLimitFields.length > 0;
+
+  function fieldError(field: keyof typeof fieldLimits) {
+    return form[field].length > fieldLimits[field]
+      ? `Max ${fieldLimits[field]} characters (${form[field].length}/${fieldLimits[field]})`
+      : undefined;
+  }
+
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
+    if (hasErrors) return;
 
     try {
       if (isEditing) {
@@ -152,6 +167,8 @@ export function JobModal({ isOpen, onClose, job }: JobModalProps) {
             value={form.company}
             onChange={(e) => updateField("company", e.target.value)}
             placeholder="e.g. Google"
+            maxLength={200}
+            error={fieldError("company")}
             required
           />
 
@@ -160,6 +177,8 @@ export function JobModal({ isOpen, onClose, job }: JobModalProps) {
             value={form.role}
             onChange={(e) => updateField("role", e.target.value)}
             placeholder="e.g. Software Engineer"
+            maxLength={200}
+            error={fieldError("role")}
             required
           />
 
@@ -176,12 +195,16 @@ export function JobModal({ isOpen, onClose, job }: JobModalProps) {
               value={form.salary}
               onChange={(e) => updateField("salary", e.target.value)}
               placeholder="e.g. $120k-$150k"
+              maxLength={100}
+              error={fieldError("salary")}
             />
             <Input
               label="Location"
               value={form.location}
               onChange={(e) => updateField("location", e.target.value)}
               placeholder="e.g. San Francisco, CA"
+              maxLength={200}
+              error={fieldError("location")}
             />
           </div>
 
@@ -210,16 +233,24 @@ export function JobModal({ isOpen, onClose, job }: JobModalProps) {
               value={form.notes}
               onChange={(e) => updateField("notes", e.target.value)}
               rows={3}
-              className="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 hover:border-slate-400 transition-all resize-none"
+              maxLength={2000}
+              className={`w-full rounded-xl border px-4 py-2.5 text-sm focus:outline-none focus:ring-2 transition-all resize-none ${
+                fieldError("notes")
+                  ? "border-red-300 focus:ring-red-500"
+                  : "border-slate-300 focus:ring-indigo-500 hover:border-slate-400"
+              }`}
               placeholder="Any notes about this application..."
             />
+            {fieldError("notes") && (
+              <p className="mt-1 text-sm text-red-600">{fieldError("notes")}</p>
+            )}
           </div>
 
           <div className="flex justify-end gap-3 pt-4">
             <Button type="button" variant="secondary" onClick={handleClose}>
               Cancel
             </Button>
-            <Button type="submit">
+            <Button type="submit" disabled={hasErrors}>
               {isEditing ? "Save Changes" : "Add Application"}
             </Button>
           </div>
