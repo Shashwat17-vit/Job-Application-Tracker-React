@@ -1,7 +1,8 @@
 import { type FormEvent, useState } from "react";
 import { Link } from "react-router-dom";
+import { GoogleLogin } from "@react-oauth/google";
 import { useAppDispatch, useAppSelector } from "@/store/hooks.js";
-import { registerThunk, clearError } from "@/store/slices/authSlice.js";
+import { registerThunk, googleLoginThunk, clearError } from "@/store/slices/authSlice.js";
 import { Button } from "@/components/ui/Button.js";
 import { Input } from "@/components/ui/Input.js";
 
@@ -41,6 +42,33 @@ export function RegisterForm() {
           {displayError}
         </div>
       )}
+
+      <div className="flex justify-center">
+        <GoogleLogin
+          onSuccess={(response) => {
+            if (response.credential) {
+              dispatch(clearError());
+              dispatch(googleLoginThunk(response.credential));
+            }
+          }}
+          onError={() => {
+            dispatch(clearError());
+          }}
+          theme="outline"
+          size="large"
+          width="100%"
+          text="signup_with"
+        />
+      </div>
+
+      <div className="relative my-2">
+        <div className="absolute inset-0 flex items-center">
+          <div className="w-full border-t border-slate-200" />
+        </div>
+        <div className="relative flex justify-center text-xs uppercase">
+          <span className="bg-white px-2 text-slate-400">or</span>
+        </div>
+      </div>
 
       <Input
         label="Name"

@@ -32,6 +32,7 @@ services:
       PORT: 5000
       CLIENT_URL: http://localhost:5173
       NODE_ENV: development
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
     volumes:
       - ./server/src:/app/server/src
       - ./server/prisma:/app/server/prisma
@@ -49,6 +50,7 @@ services:
       - "5173:5173"
     environment:
       - VITE_API_URL=http://server:5000
+      - VITE_GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
     volumes:
       - ./client/src:/app/client/src
       - ./client/index.html:/app/client/index.html

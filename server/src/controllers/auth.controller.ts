@@ -25,6 +25,20 @@ export async function login(req: Request, res: Response, next: NextFunction) {
   }
 }
 
+export async function googleLogin(req: Request, res: Response, next: NextFunction) {
+  try {
+    const { credential } = req.body;
+    if (!credential) {
+      throw ApiError.badRequest("Google credential is required");
+    }
+    const result = await authService.googleLogin(credential);
+    setTokenCookies(res, result.accessToken, result.refreshToken);
+    res.json({ success: true, data: { user: result.user } });
+  } catch (err) {
+    next(err);
+  }
+}
+
 export async function refresh(req: Request, res: Response, next: NextFunction) {
   try {
     const refreshToken = req.cookies?.refreshToken;
