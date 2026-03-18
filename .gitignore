@@ -36,3 +36,6 @@ pgdata/
 
 # Vite
 client/dist/
+
+#PEM
+trackmyapp.pem
