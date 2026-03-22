@@ -41,13 +41,13 @@ export function StatsCards() {
   return (
     <div className="space-y-6">
       {/* Hero stat card — focal point, largest element creates visual hierarchy */}
-      <div className="gradient-brand rounded-2xl p-8 text-white relative overflow-hidden">
+      <div className="gradient-brand rounded-2xl p-5 sm:p-8 text-white relative overflow-hidden">
         <div className="absolute -top-16 -right-16 h-48 w-48 rounded-full bg-white/5" />
         <div className="absolute -bottom-8 -right-8 h-32 w-32 rounded-full bg-white/10" />
         <div className="relative z-10 flex items-center justify-between">
           <div>
             <p className="text-sm font-medium text-indigo-200 mb-1">Total Applications</p>
-            <h2 className="text-5xl font-extrabold tracking-tight">
+            <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight">
               {dashboardStats.totalApplications}
             </h2>
           </div>

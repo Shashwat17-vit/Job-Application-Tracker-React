@@ -88,6 +88,9 @@ export function JobModal({ isOpen, onClose, job }: JobModalProps) {
       } else {
         await dispatch(createJobThunk(form)).unwrap();
         toast.success("Job added");
+        setForm({ company: "", role: "", url: "", salary: "", location: "", notes: "", status: JobStatus.WISHLIST });
+        setJobDescription("");
+        setMode("form");
       }
       onClose();
     } catch {

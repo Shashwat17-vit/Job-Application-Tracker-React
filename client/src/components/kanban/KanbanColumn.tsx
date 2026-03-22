@@ -12,7 +12,7 @@ interface KanbanColumnProps {
 
 export function KanbanColumn({ id, title, color, jobs, count }: KanbanColumnProps) {
   return (
-    <div className="flex w-72 min-w-[18rem] flex-col rounded-2xl bg-slate-100/80">
+    <div className="flex w-60 min-w-[15rem] sm:w-72 sm:min-w-[18rem] flex-col rounded-2xl bg-slate-100/80">
       {/* Column header — gestalt grouping with color dot */}
       <div className="flex items-center gap-2.5 p-3.5">
         <div
